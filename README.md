@@ -1,0 +1,2 @@
+# couchsurfing-app
+Tietokantasovellus harjoitustyö
