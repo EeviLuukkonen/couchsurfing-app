@@ -1,6 +1,6 @@
 # Sohvasurffaus-sovellus
 
-Sohvasurffaus on toimintaa, jossa tarjotaan omaa kotia majoituspaikaksi tuntemattomille reissaajille. Tällä sovelluksessa voi ilmoittaa oman kotinsa sohvasurffauskohteeksi ja selata koteja, joille voi sohvasurffata.
+Sohvasurffaus on toimintaa, jossa tarjotaan omaa kotia majoituspaikaksi tuntemattomille reissaajille. Tällä sovelluksella voi ilmoittaa oman kotinsa sohvasurffauskohteeksi ja selata koteja, joille voi sohvasurffata.
 
 Sovelluksen ominaisuuksia:
 
