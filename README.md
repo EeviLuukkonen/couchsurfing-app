@@ -10,3 +10,7 @@ Sovelluksen ominaisuuksia:
 * Käyttäjä voi arvostella muiden sohvasurffauskohteita
 * Käyttäjä voi lisätä oman kotinsa sohvasurffauskohteeksi
 * Ylläpitäjä voi tarvittaessa poistaa sohvasurffauskohteita sekä käyttäjien arvosteluja
+
+Sovellus herokussa:
+
+https://couchsurfing-app.herokuapp.com/
