@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <title>Luo tunnus</title>
+<h1>Luo tunnus</h1>
 <form action="/register" method="post">
 Tunnus: <br><input type="text" name="username" minlength="1" maxlength="20">
 <p>
-Salasana: <br><input type="password" name="password1">
+Salasana: <br><input type="password" name="password">
 <p>
+{% if error %}
+Virhe
+{% endif %}
 <input type="submit" value="Luo tunnus">
 </form>
