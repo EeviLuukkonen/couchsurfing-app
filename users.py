@@ -3,7 +3,6 @@ from db import db
 from flask import session
 
 def register(username, password):
-    print(username,password)
     hash_value = generate_password_hash(password)
     try:
         sql = "INSERT INTO users (username, password) VALUES (:username, :password)"

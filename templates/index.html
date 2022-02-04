@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<title>Etusivu</title>
-<h1>Tervetuloa SOHVASURFAAMAAN</h1>
-{% if session.username %}
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
-<a href="/logout">Kirjaudu ulos</a>
-{% else %}
-<p>Nähdäksesi kohteet <a href="/login">Kirjaudu sisään</a></p>
-<br>Tai <a href="/register">Luo uusi tunnus</a>
-{% endif %}
+<link rel="stylesheet" href="main.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<body>
+    <title>Etusivu</title>
+    <h1>Tervetuloa sohvasurfaamaan!</h1>
+
+    {% if session.username %}
+    <p>Olet kirjautunut nimellä {{ session.username }}</p>
+    <p><a href="/logout">Kirjaudu ulos</a></p>
+    <a href="/new">Lisää kohde</a></p>
+
+    {% else %}
+    <p>Nähdäksesi kohteet <a href="/login">Kirjaudu sisään</a></p>
+    <br>Tai <a href="/register">Luo uusi tunnus</a>
+    {% endif %}
+</body>
