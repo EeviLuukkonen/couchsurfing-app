@@ -33,3 +33,8 @@ def register():
         else:
             print("joo")
             return render_template("register.html", error=True)
+
+@app.route("/logout")
+def logout():
+    users.logout()
+    return redirect("/")
