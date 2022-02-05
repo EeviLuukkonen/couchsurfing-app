@@ -2,10 +2,12 @@ from flask import render_template, request, redirect
 from app import app
 from db import db
 import users
+import destinations
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    list = destinations.get_destinations()
+    return render_template("index.html", destinations=list)
 
 @app.route("/login", methods=["get", "post"])
 def login():
@@ -55,3 +57,9 @@ def new():
             return render_template("/new.html", success=True)            
         except:
             return render_template("/new.html", error=True)
+
+
+@app.route("/destination/<int:destination_id>")
+def show_destination(destination_id):
+    info = destinations.get_destination_info(destination_id)
+    return render_template("destination.html", id=destination_id, address=info[1], phone_number=info[2], description=info[3])

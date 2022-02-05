@@ -8,8 +8,13 @@
 
     {% if session.username %}
     <p>Olet kirjautunut nimellä {{ session.username }}</p>
+    
+    Kohteet:
+    {% for destination in destinations %}
+        <li><a href="/destination/{{ destination.id }}">{{ destination.address }}</a>
+    {% endfor %}
+    <p><a href="/new">Lisää kohde</a></p>
     <p><a href="/logout">Kirjaudu ulos</a></p>
-    <a href="/new">Lisää kohde</a></p>
 
     {% else %}
     <p>Nähdäksesi kohteet <a href="/login">Kirjaudu sisään</a></p>
