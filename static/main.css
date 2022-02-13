@@ -14,4 +14,27 @@ body {
     border-radius: 5em;
     text-align: center;
     margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+nav {
+    display: block;
+    float: right;
+    background: rgb(232, 244, 252);
+    padding: 1.5em 2em;
+    border-radius: 5em;
+    margin-top: 2em;
+    outline: auto;
+}
+
+nav a {
+    color: #000;
+}
+
+.content {
+    outline: auto;
+    background: rgb(250, 248, 218);
+    padding: 1.5em 4em;
+    border-radius: 5em;
+    margin-top: 2em;
 }

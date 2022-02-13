@@ -16,8 +16,18 @@
     <p><a href="/logout">Kirjaudu ulos</a></p>
 
     {% else %}
-    <p>Nähdäksesi kohteet <a href="/login">Kirjaudu sisään</a></p>
-    <br>Tai <a href="/register">Luo uusi tunnus</a>
+    <div class="content" >
+        <nav>
+            <p><a href="/login">KIRJAUDU SISÄÄN</a></p>
+            <p><a href="/register">LUO UUSI KÄYTTÄJÄTUNNUS</a></p>
+        </nav>
+            <p>
+                Sohvasurffaus on toimintaa, jossa tarjotaan omaa kotia majoituspaikaksi 
+                tuntemattomille reissaajille. Tällä sovelluksella voit ilmoittaa oman kotisi 
+                sohvasurffauskohteeksi ja selata koteja, joille voit sohvasurffata. 
+                Luo uusi käyttäjätunnus tai kirjaudu sisään nähdäksesi kohteet.
+            </p>
+    </div>
     {% endif %}
     {% endblock %}
 </body>
