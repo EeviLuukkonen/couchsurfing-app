@@ -1,7 +1,12 @@
 <!DOCTYPE html>
+{% extends "layout.html" %}
+
+{% block title %}Kohteen tiedot{% endblock %}
+{% block content %}
 <h1>Tarkastele kohdetta</h1>
 <p>
 Osoite: {{ address }}
 <br>Puhelinnumero: {{ phone_number }}
 <br>Kuvaus: {{ description }}
 </p>
+{% endblock %}

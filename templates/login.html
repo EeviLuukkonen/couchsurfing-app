@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<title>Kirjaudu</title>
+{% extends "layout.html" %}
+
+{% block title %}Kirjaudu{% endblock %}
+{% block content %}
 <h1>Kirjaudu sisään</h1>
 <form action="/login" method="POST">
     <p>Käyttäjätunnus:<br>
@@ -11,3 +14,4 @@
 {% if error %}
 Virhe
 {% endif %}
+{% endblock %}

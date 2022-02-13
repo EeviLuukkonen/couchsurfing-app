@@ -1,13 +1,19 @@
 <!DOCTYPE html>
-<title>Luo tunnus</title>
+{% extends "layout.html" %}
+
+{% block title %}Luo tunnus{% endblock %}
+{% block content %}
 <h1>Luo tunnus</h1>
 <form action="/register" method="post">
-Tunnus: <br><input type="text" name="username" minlength="1" maxlength="20">
+Tunnus: <br><input type="text" name="username" minlength="3" maxlength="20">
 <p>
-Salasana: <br><input type="password" name="password">
+Salasana: <br><input type="password" name="password1" minlength="3" maxlength="20">
 <p>
+Salasana uudelleen: <br><input type="password" name="password2" minlength="3" maxlength="20">
+</p>
 {% if error %}
 Virhe
 {% endif %}
 <input type="submit" value="Luo tunnus">
 </form>
+{% endblock %}

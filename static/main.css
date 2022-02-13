@@ -1,0 +1,17 @@
+body {
+    margin: auto;
+    max-width: 45em;
+    font-family: Verdana, Tahoma, sans-serif;
+    background-color: #DFFFED;
+}
+
+.header {
+    background: rgb(255, 232, 246);
+    outline: auto;
+    font-weight: bold;
+    padding: 1.5em 1em;
+    font-size: 1.5em;
+    border-radius: 5em;
+    text-align: center;
+    margin-top: 2em;
+}

@@ -29,8 +29,19 @@ def register():
     
     if request.method == "POST":
         username = request.form["username"]
-        password = request.form["password"]
-        if users.register(username, password):
+        password1 = request.form["password1"]
+        password2 = request.form["password2"]
+
+        if 3 > len(username) > 20:
+            return render_template("error.html", error="Käyttäjänimen pituuden tulee olla 3-20 merkkiä")
+
+        if password1 != password2:
+            return render_template("error.html", message="Salasanat eivät täsmää")
+
+        if 3 > len(password1) > 20:
+            return render_template("error.html", message="Salasanan pituuden tulee olla 3-20 merkkiä")
+
+        if users.register(username, password1):
             return redirect("/")
         else:
             return render_template("register.html", error=True)
