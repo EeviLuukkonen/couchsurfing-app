@@ -1,3 +1,4 @@
+from os import error
 from flask import render_template, request, redirect
 from app import app
 from db import db
@@ -61,16 +62,18 @@ def new():
         phone_number = request.form["phone_number"]
         description = request.form["description"]
 
-        try:
-            sql = "INSERT INTO destinations (address, phone_number, description) VALUES (:address, :phone_number, :description)"
-            db.session.execute(sql, {"address":address, "phone_number":phone_number, "description":description})
-            db.session.commit()
-            return render_template("/new.html", success=True)            
-        except:
+        if len(description) > 500:
+            return render_template("error.html", message="Kommentti on liian pitkä")
+        if description == "" or address == "" or phone_number == "":
             return render_template("/new.html", error=True)
+
+        if destinations.new_destination(users.user_id(), address, phone_number, description):
+            return render_template("/new.html", success=True)   
+        else:
+            return render_template("/new.html", error=True)         
 
 
 @app.route("/destination/<int:destination_id>")
 def show_destination(destination_id):
     info = destinations.get_destination_info(destination_id)
-    return render_template("destination.html", id=destination_id, address=info[1], phone_number=info[2], description=info[3])
+    return render_template("destination.html", id=destination_id, address=info[0], phone_number=info[1], description=info[2])

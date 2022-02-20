@@ -4,9 +4,8 @@ CREATE TABLE users (
     password TEXT
 );
 
-CREATE TABLE destinations (
-    id SERIAL PRIMARY KEY
-    address TEXT
-    phone_number TEXT
-    description TEXT
-);
+CREATE TABLE info (id SERIAL PRIMARY KEY, destination_id INTEGER REFERENCES destinations, phone_number TEXT, description TEXT);
+
+CREATE TABLE destinations (id SERIAL PRIMARY KEY, user_id INTEGER REFERENCES users, address TEXT, visible INTEGER);
+
+CREATE TABLE reviews (id SERIAL PRIMARY KEY, user_id INTEGER REFERENCES users, destination_id INTEGER REFERENCES destinations, stars INTEGER, comment TEXT);
