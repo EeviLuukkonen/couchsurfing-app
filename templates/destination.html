@@ -5,9 +5,44 @@
 {% block content %}
 <h1>Tarkastele kohdetta</h1>
 <p>
-Osoite: {{ address }}
-<br>Puhelinnumero: {{ phone_number }}
-<br>Kuvaus: {{ description }}
+<b>Omistaja:</b> {{ user }}
+<br><b>Osoite:</b> {{ address }}
+<br><b>Puhelinnumero:</b> {{ phone_number }}
+<br><b>Kuvaus:</b> {{ description }}
 </p>
+
+{% if reviews %}
+<h3>Arvostelut:</h3>
+
+<ul>
+{% for review in reviews %}
+<li> {{ review[0] }} ({{ review[1] }}/5): "{{ review[2] }}"
+{% endfor %}
+</ul>
+{% endif %}
+
+
+{% if session.username %}
+<h3>Arvioi kohde:</h3>
+<form action="/review" method="post">
+Tähdet:
+<select name="stars">
+<option value="1">1
+<option value="2">2
+<option value="3">3
+<option value="4">4
+<option value="5">5
+</select>
+<p>
+Kommentti:<br>
+<textarea name="comment" rows="3" cols="40" maxlength="1000"></textarea>
+<p><input type="submit" value="Lähetä">
+<input type="hidden" name="destination_id" value="{{ id }}">
+</form>
+{% endif %}
+
+{% if error %}
+Virhe: {{ message }}
+{% endif %}
 <p><a href="/">Takaisin etusivulle</a></p>
 {% endblock %}

@@ -11,7 +11,9 @@
     <input type="password" name="password"></p>
     <input type="submit" value="Kirjaudu">
 </form>
+<p>
 {% if error %}
-Virhe
+{{ error }}
 {% endif %}
+</p>
 {% endblock %}

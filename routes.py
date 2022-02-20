@@ -21,7 +21,7 @@ def login():
         if users.login(username, password):
             return redirect("/")
         else:
-            return render_template("login.html", error=True)
+            return render_template("login.html", error="Käyttäjätunnus ja salasana eivät täsmää!")
 
 @app.route("/register", methods=["get", "post"])
 def register():
@@ -67,13 +67,34 @@ def new():
         if description == "" or address == "" or phone_number == "":
             return render_template("/new.html", error=True)
 
-        if destinations.new_destination(users.user_id(), address, phone_number, description):
-            return render_template("/new.html", success=True)   
+        user = users.user_id()
+        print(user)
+        if user:
+            if destinations.new_destination(user, address, phone_number, description):
+                return render_template("/new.html", success=True)   
         else:
             return render_template("/new.html", error=True)         
-
 
 @app.route("/destination/<int:destination_id>")
 def show_destination(destination_id):
     info = destinations.get_destination_info(destination_id)
-    return render_template("destination.html", id=destination_id, address=info[0], phone_number=info[1], description=info[2])
+    reviews = destinations.get_reviews(destination_id)
+    return render_template("destination.html", id=destination_id, user=info[0], address=info[1], phone_number=info[2], description=info[3], reviews=reviews)
+
+@app.route("/review", methods=["post"])
+def review():
+    destination_id = request.form["destination_id"]
+
+    stars = int(request.form["stars"])
+    if stars < 1 or stars > 5:
+        return render_template("destination.html", error=True, message="Virheellinen tähtimäärä")
+
+    comment = request.form["comment"]
+    if len(comment) > 500:
+        return render_template("destination.html", error=True, message="Liian pitkä kommentti!")
+    if comment == "":
+        comment = "-"
+
+    destinations.add_review(users.user_id(), destination_id, stars, comment)
+
+    return redirect("/destination/"+str(destination_id))

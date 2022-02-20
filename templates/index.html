@@ -6,13 +6,15 @@
 
     {% block content %}
     {% if session.username %}
-    <p>Olet kirjautunut nimellä {{ session.username }}</p>
+    <p>Olet kirjautunut nimellä <b>{{ session.username }}</b></p>
     
-    Kohteet:
+    <b>Kohteet:</b>
+    <p>
     {% for destination in destinations %}
         <li><a href="/destination/{{ destination.id }}">{{ destination.address }}</a>
     {% endfor %}
-    <p><a href="/new">Lisää kohde</a></p>
+    </p>
+    <p><a href="/new">Lisää uusi kohde</a></p>
     <p><a href="/logout">Kirjaudu ulos</a></p>
 
     {% else %}
