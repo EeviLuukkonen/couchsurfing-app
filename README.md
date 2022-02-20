@@ -11,9 +11,10 @@ Sovelluksen ominaisuuksia:
 * Käyttäjä voi lisätä oman kotinsa sohvasurffauskohteeksi
 * Ylläpitäjä voi tarvittaessa poistaa sohvasurffauskohteita sekä käyttäjien arvosteluja
 
-VÄLIPALAUTUS 2:
+VÄLIPALAUTUS 3:
 
-Sovelluksesta on valmiina alustava pohja: etusivu, kirjautumisominaisuus, kohteen lisääminen ja kohteiden tarkastelu. Muotoilua ei ole vielä paranneltu.
+Sovelluksessa pystyy kirjautumaan, lisäämään kohteen ja arvostelemaan sen. Vielä lisäämättä ylläpitäjärooli, kohteiden poistaminen ja lajittelu yms
+paranteluja toiminnallisuuteen.
 
 Sovellus herokussa:
 
