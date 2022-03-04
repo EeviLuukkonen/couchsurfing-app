@@ -66,6 +66,9 @@ def new():
             return render_template("/error.html", message="Kommentti on liian pitkä")
         if description == "" or address == "" or phone_number == "":
             return render_template("/error.html", message="Kohteen lisäys epäonnistui. Täytä kaikki kohdat!")
+        
+        if len(phone_number) != 10:
+            return render_template("/error.html", message="Tarkista puhelinnumeron pituus (10 merkkiä)!")
 
         user = users.user_id()
 
@@ -98,6 +101,11 @@ def review():
     
     if int(users.user_id()) == int(user_id):
         return render_template("error.html", message="Et voi arvioida omaa kohdettasi!")
+    
+    reviews = destinations.get_reviews(destination_id)
+    for review in reviews:
+        if review[0] == users.user_id():
+            return render_template("error.html", message="Olet jo arvioinut tämän kohteen!")
 
     destinations.add_review(users.user_id(), destination_id, stars, comment)
 
