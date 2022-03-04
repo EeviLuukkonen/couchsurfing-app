@@ -41,12 +41,12 @@ Kommentti:<br>
 </form>
 {% endif %}
 
-if {% reviews %}
+{% if reviews %}
 {% if session.username == user %}
 <h3>Arvioi vierailijat:</h3>
 
 {% for visitor in reviews %}
-<form action="/choose_user" method="post">
+<form action="/user_review" method="post">
     <b>{{ visitor[1] }}</b> Tähdet:
     <select name="stars">
     <option value="1">1
@@ -59,8 +59,9 @@ if {% reviews %}
     Kommentti:<br>
     <textarea name="comment" rows="2" cols="40" maxlength="500"></textarea>
     <p><input type="submit" value="Lähetä">
-    <input type="hidden" name="reviewer_id" value="{{ visitor[0] }}">
-    <input type="hidden" name="user_id" value="{{ user_id }}">
+    <input type="hidden" name="reviewer_id" value="{{ user_id }}">
+    <input type="hidden" name="user_id" value="{{ visitor[0] }}">
+    <input type="hidden" name="destination_id" value="{{ id }}">
     </form>
     <br>
 {% endfor %}

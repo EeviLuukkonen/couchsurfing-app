@@ -111,6 +111,27 @@ def review():
 
     return redirect("/destination/"+str(destination_id))
 
+@app.route("/user_review", methods=["post"])
+def user_review():
+    reviewer_id = request.form["reviewer_id"]
+    user_id = request.form["user_id"]
+    destination_id = request.form["destination_id"]
+
+    stars = int(request.form["stars"])
+    if stars < 1 or stars > 5:
+        return render_template("destination.html", error=True, message="Virheellinen tähtimäärä")
+    
+    comment = request.form["comment"]
+    if len(comment) > 200:
+        return render_template("error.html", message="Kommentin tulee olla alle 200 merkkiä pitkä.")
+    if comment == "":
+        return render_template("error.html", message="Kommentti ei saa olla tyhjä!")
+    
+    users.add_user_review(reviewer_id, user_id, stars, comment)
+
+    return redirect("/destination/"+str(destination_id))
+
+
 @app.route("/user/<int:user_id>")
 def show_user_info(user_id):
     username = users.get_user_info(user_id)
