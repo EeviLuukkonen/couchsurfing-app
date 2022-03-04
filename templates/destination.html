@@ -21,7 +21,6 @@
 </ul>
 {% endif %}
 
-
 {% if session.username %}
 <h3>Arvioi kohde:</h3>
 <form action="/review" method="post">
@@ -38,6 +37,7 @@ Kommentti:<br>
 <textarea name="comment" rows="3" cols="40" maxlength="1000"></textarea>
 <p><input type="submit" value="Lähetä">
 <input type="hidden" name="destination_id" value="{{ id }}">
+<input type="hidden" name="user_id" value="{{ user_id }}">
 </form>
 {% endif %}
 

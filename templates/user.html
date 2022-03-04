@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 {% extends "layout.html" %}
 
-{% block title %}Käyttäjä {{ info.username }}{% endblock %}
+{% block title %}Käyttäjä {{ username }}{% endblock %}
 {% block content %}
 
-{% if info %}
-<h2>Käyttäjä {{ info.username }}</h2>
+<h2>Käyttäjä {{ username }}</h2>
 
-<h3>Käyttäjän kohteet:</h3>
+{% if destinations %}
+<h3>Omat kohteet:</h3>
 
 {% for destination in destinations %}
 <li><a href="/destination/{{ destination.id }}">{{ destination.address }}</a>, tähdet: {{ stars }}
@@ -20,4 +20,3 @@
 
 <h3>Vierailija-arvosana:</h3>
 {% endblock %}
-

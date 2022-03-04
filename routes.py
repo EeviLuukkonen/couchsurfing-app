@@ -1,5 +1,5 @@
 from os import error
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, sessions
 from app import app
 from db import db
 import users
@@ -30,22 +30,22 @@ def register():
     
     if request.method == "POST":
         username = request.form["username"]
+        if 3 > len(username) > 20:
+            return render_template("error.html", message="Käyttäjänimen pituuden tulee olla 3-20 merkkiä")
+
         password1 = request.form["password1"]
         password2 = request.form["password2"]
-
-        if 3 > len(username) > 20:
-            return render_template("error.html", error="Käyttäjänimen pituuden tulee olla 3-20 merkkiä")
 
         if password1 != password2:
             return render_template("error.html", message="Salasanat eivät täsmää")
 
-        if 3 > len(password1) > 20:
+        if password1 == "":
             return render_template("error.html", message="Salasanan pituuden tulee olla 3-20 merkkiä")
 
         if users.register(username, password1):
             return redirect("/")
         else:
-            return render_template("register.html", error=True)
+            return render_template("error.html", message="Tunnuksen luonti epäonnistui!")
 
 @app.route("/logout")
 def logout():
@@ -63,12 +63,12 @@ def new():
         description = request.form["description"]
 
         if len(description) > 500:
-            return render_template("error.html", message="Kommentti on liian pitkä")
+            return render_template("/error.html", message="Kommentti on liian pitkä")
         if description == "" or address == "" or phone_number == "":
-            return render_template("/new.html", error=True)
+            return render_template("/error.html", message="Kohteen lisäys epäonnistui. Täytä kaikki kohdat!")
 
         user = users.user_id()
-        print(user)
+
         if user:
             if destinations.new_destination(user, address, phone_number, description):
                 return render_template("/new.html", success=True)   
@@ -84,6 +84,7 @@ def show_destination(destination_id):
 @app.route("/review", methods=["post"])
 def review():
     destination_id = request.form["destination_id"]
+    user_id = request.form["user_id"]
 
     stars = int(request.form["stars"])
     if stars < 1 or stars > 5:
@@ -91,9 +92,12 @@ def review():
 
     comment = request.form["comment"]
     if len(comment) > 500:
-        return render_template("destination.html", error=True, message="Liian pitkä kommentti!")
+        return render_template("error.html", message="Kommentin tulee olla alle 500 merkkiä pitkä.")
     if comment == "":
-        comment = "-"
+        return render_template("error.html", message="Kommentti ei saa olla tyhjä!")
+    
+    if int(users.user_id()) == int(user_id):
+        return render_template("error.html", message="Et voi arvioida omaa kohdettasi!")
 
     destinations.add_review(users.user_id(), destination_id, stars, comment)
 
@@ -101,5 +105,9 @@ def review():
 
 @app.route("/user/<int:user_id>")
 def show_user_info(user_id):
-    list = users.get_user_info(user_id)
-    return render_template("user.html", destinations=list, info=list[0])
+    username = users.get_user_info(user_id)
+    list = users.get_users_destinations(user_id)
+    if list == []:
+        return render_template("user.html", username = username)
+    else:
+        return render_template("user.html", destinations=list, username=username)

@@ -1,3 +1,4 @@
+import re
 from werkzeug.security import check_password_hash, generate_password_hash
 from db import db
 from flask import session
@@ -27,12 +28,19 @@ def login(username, password):
         else:
             return False
 
-def get_user_info(user_id):
-    sql = "SELECT u.username, d.id, d.address FROM users u, destinations d WHERE user_id=:user_id AND d.user_id=u.id"
+def get_users_destinations(user_id):
+    sql = "SELECT d.id, d.address FROM users u, destinations d WHERE u.id=:user_id AND d.user_id=u.id"
     return db.session.execute(sql, {"user_id":user_id}).fetchall()
+
+def get_user_info(user_id):
+    sql = "SELECT username FROM users WHERE id=:user_id"
+    return db.session.execute(sql, {"user_id":user_id}).fetchone()[0]
 
 def user_id():
     return session.get("user_id")
 
 def logout():
-    del session["username"]
+    try:
+        del session["username"]
+    except:
+        return

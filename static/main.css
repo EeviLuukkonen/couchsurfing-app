@@ -14,7 +14,27 @@ body {
     border-radius: 5em;
     text-align: center;
     margin-top: 2em;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
+}
+
+.navigating li {
+    display: inline-block;
+    padding: .5em 1em;
+    background: white;
+    border-radius: 5em;
+    margin-left: .5em;
+    margin-right: .5em;
+    outline: auto;
+}
+
+.navigating ul {
+    text-align: center;
+    padding: 0;
+}
+
+.navigating li a {
+    color: #000;
+    text-decoration: none;
 }
 
 nav {
