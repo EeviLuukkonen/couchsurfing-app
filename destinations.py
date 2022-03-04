@@ -6,7 +6,7 @@ def get_destinations():
     return result.fetchall()
 
 def get_destination_info(destinationid):
-    sql = "SELECT u.username, d.address, i.phone_number, i.description FROM info i, destinations d, users u WHERE d.id=:destinationid AND d.id=i.destination_id AND u.id=d.user_id"
+    sql = "SELECT u.username, d.address, i.phone_number, i.description, u.id FROM info i, destinations d, users u WHERE d.id=:destinationid AND d.id=i.destination_id AND u.id=d.user_id"
     return db.session.execute(sql, {"destinationid":destinationid}).fetchone()
 
 def new_destination(user, address, phone_number, description):

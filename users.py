@@ -27,6 +27,10 @@ def login(username, password):
         else:
             return False
 
+def get_user_info(user_id):
+    sql = "SELECT u.username, d.id, d.address FROM users u, destinations d WHERE user_id=:user_id AND d.user_id=u.id"
+    return db.session.execute(sql, {"user_id":user_id}).fetchall()
+
 def user_id():
     return session.get("user_id")
 

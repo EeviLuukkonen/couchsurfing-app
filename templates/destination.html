@@ -5,7 +5,7 @@
 {% block content %}
 <h1>Tarkastele kohdetta</h1>
 <p>
-<b>Omistaja:</b> {{ user }}
+<b>Omistaja:</b> <a href="/user/{{ user_id }}">{{ user }}</a>
 <br><b>Osoite:</b> {{ address }}
 <br><b>Puhelinnumero:</b> {{ phone_number }}
 <br><b>Kuvaus:</b> {{ description }}

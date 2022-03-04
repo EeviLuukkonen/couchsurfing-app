@@ -79,7 +79,7 @@ def new():
 def show_destination(destination_id):
     info = destinations.get_destination_info(destination_id)
     reviews = destinations.get_reviews(destination_id)
-    return render_template("destination.html", id=destination_id, user=info[0], address=info[1], phone_number=info[2], description=info[3], reviews=reviews)
+    return render_template("destination.html", id=destination_id, user=info[0], address=info[1], phone_number=info[2], description=info[3], reviews=reviews, user_id=info[4])
 
 @app.route("/review", methods=["post"])
 def review():
@@ -98,3 +98,8 @@ def review():
     destinations.add_review(users.user_id(), destination_id, stars, comment)
 
     return redirect("/destination/"+str(destination_id))
+
+@app.route("/user/<int:user_id>")
+def show_user_info(user_id):
+    list = users.get_user_info(user_id)
+    return render_template("user.html", destinations=list, info=list[0])
