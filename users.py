@@ -45,8 +45,11 @@ def logout():
     except:
         return
 
-
 def add_user_review(reviewer_id, user_id, stars, comment):
     sql = "INSERT INTO userreviews (reviewer_id, user_id, stars, comment) VALUES (:reviewer_id, :user_id, :stars, :comment)"
     db.session.execute(sql, {"reviewer_id":reviewer_id, "user_id":user_id, "stars":stars, "comment":comment})
     db.session.commit()
+
+def get_user_reviews(reviewer_id):
+    sql = "SELECT u.reviewer_id FROM userreviews u, reviews r WHERE u.user_id=r.user_id AND u.reviewer_id=:reviewer_id"
+    return db.session.execute(sql, {"reviewer_id": reviewer_id}).fetchall()

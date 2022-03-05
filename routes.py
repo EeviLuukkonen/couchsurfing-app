@@ -1,4 +1,5 @@
 from os import error
+import re
 from flask import render_template, request, redirect, sessions
 from app import app
 from db import db
@@ -127,10 +128,14 @@ def user_review():
     if comment == "":
         return render_template("error.html", message="Kommentti ei saa olla tyhjä!")
     
+    user_reviews = users.get_user_reviews(destination_id)
+    for review in user_reviews:
+        if review[0] == users.user_id():
+            return render_template("error.html", message="Olet jo arvioinut tämän vierailijan!")
+
     users.add_user_review(reviewer_id, user_id, stars, comment)
 
     return redirect("/destination/"+str(destination_id))
-
 
 @app.route("/user/<int:user_id>")
 def show_user_info(user_id):
