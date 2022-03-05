@@ -18,7 +18,7 @@
 
 <p><b>Saadut vierailija-arviot:</b></p>
 {% for comment in comments %}
-<li>{{ comment[0] }}</li>
+<li>{{ comment[0] }} ({{ comment[1] }})</li>
 {% endfor %}
 
 <p><b>Vierailija-arvosana:</b> {{ userscore }}</p>

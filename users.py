@@ -63,7 +63,7 @@ def get_user_reviews(reviewer_id):
     return db.session.execute(sql, {"reviewer_id": reviewer_id}).fetchall()
 
 def get_user_comments(user_id):
-    sql = "SELECT comment FROM userreviews WHERE user_id=:user_id"
+    sql = "SELECT comment, username FROM userreviews a, users b WHERE a.user_id=:user_id AND b.id=a.reviewer_id"
     return db.session.execute(sql, {"user_id": user_id}).fetchall()
 
 def get_user_score(user_id):
