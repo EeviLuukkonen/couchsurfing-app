@@ -128,7 +128,7 @@ def user_review():
     if comment == "":
         return render_template("error.html", message="Kommentti ei saa olla tyhjä!")
     
-    user_reviews = users.get_user_reviews(destination_id)
+    user_reviews = users.get_user_reviews(reviewer_id)
     for review in user_reviews:
         if review[0] == users.user_id():
             return render_template("error.html", message="Olet jo arvioinut tämän vierailijan!")
@@ -141,8 +141,12 @@ def user_review():
 def show_user_info(user_id):
     username = users.get_user_info(user_id)
     list = users.get_users_destinations(user_id)
+    visits = users.get_users_visits(user_id)
+    
+    comments = users.get_user_comments(user_id)
+    score = users.get_user_score(user_id)
 
     if list == []:
         return render_template("user.html", username = username)
     else:
-        return render_template("user.html", destinations=list, username=username)
+        return render_template("user.html", destinations=list, username=username, visits=visits, comments=comments, userscore=score)

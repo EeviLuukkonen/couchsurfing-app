@@ -14,9 +14,12 @@
 {% endfor %}
 {% endif %}
 
-<h3>Käydyt kohteet:</h3>
+<p><b>Käydyt kohteet:</b> {{ visits }}</p>
 
-<h3>Saadut vierailija-arviot:</h3>
+<p><b>Saadut vierailija-arviot:</b></p>
+{% for comment in comments %}
+<li>{{ comment[0] }}</li>
+{% endfor %}
 
-<h3>Vierailija-arvosana:</h3>
+<p><b>Vierailija-arvosana:</b> {{ userscore }}</p>
 {% endblock %}

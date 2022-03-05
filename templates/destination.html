@@ -16,13 +16,13 @@
 
 <ul>
 {% for review in reviews %}
-<li> {{ review[1] }} ({{ review[2] }}/5): "{{ review[3] }}"
+<li><b>Vierailija: </b>{{ review[1] }} <b>Tähtiä: </b>{{ review[2] }}/5 <b>Kommentti: </b>"{{ review[3] }}"
 {% endfor %}
 </ul>
 {% endif %}
 
 {% if session.username != user %}
-<h3>Kävitkö kohteessa? Arvioi se!:</h3>
+<h3>Kävitkö kohteessa? Arvioi se!</h3>
 <form action="/review" method="post">
 Tähdet:
 <select name="stars">

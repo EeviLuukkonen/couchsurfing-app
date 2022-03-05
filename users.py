@@ -30,9 +30,13 @@ def login(username, password):
 
 def get_users_destinations(user_id):
     sql = """SELECT d.id, d.address, COALESCE(CAST(AVG(r.stars) AS DECIMAL(10,2)),0) AS stars 
-            FROM users u JOIN destinations d ON u.id=4 AND d.user_id=u.id 
+            FROM users u JOIN destinations d ON u.id=:user_id AND d.user_id=u.id 
             LEFT JOIN reviews r ON r.destination_id=d.id GROUP BY d.id"""
     return db.session.execute(sql, {"user_id":user_id}).fetchall()
+
+def get_users_visits(user_id):
+    sql = "SELECT COUNT(id) FROM reviews WHERE user_id=:user_id"
+    return db.session.execute(sql, {"user_id":user_id}).fetchone()[0]
 
 def get_user_info(user_id):
     sql = "SELECT username FROM users WHERE id=:user_id"
@@ -53,5 +57,13 @@ def add_user_review(reviewer_id, user_id, stars, comment):
     db.session.commit()
 
 def get_user_reviews(reviewer_id):
-    sql = "SELECT u.reviewer_id FROM userreviews u, reviews r WHERE u.user_id=r.user_id AND u.reviewer_id=:reviewer_id"
+    sql = "SELECT u.reviewer_id FROM userreviews u, reviews r WHERE u.user_id=r.user_id AND u.reviewer_id=:reviewer_id GROUP BY u.reviewer_id"
     return db.session.execute(sql, {"reviewer_id": reviewer_id}).fetchall()
+
+def get_user_comments(user_id):
+    sql = "SELECT comment FROM userreviews WHERE user_id=:user_id"
+    return db.session.execute(sql, {"user_id": user_id}).fetchall()
+
+def get_user_score(user_id):
+    sql = "SELECT COALESCE(CAST(AVG(stars) AS DECIMAL(10,2)),0) FROM userreviews WHERE user_id=:user_id"
+    return db.session.execute(sql, {"user_id": user_id}).fetchone()[0]
