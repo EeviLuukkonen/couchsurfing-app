@@ -8,14 +8,18 @@
     {% if session.username %}
     <p>Olet kirjautunut nimellä <b>{{ session.username }}</b></p>
     
-    <b>Kohteet:</b>
+    <h2>Saatavilla olevat kohteet:</h2>
     <p>
     {% for destination in destinations %}
-        <li><a href="/destination/{{ destination.id }}">{{ destination.address }}</a>
+        <li><a href="/destination/{{ destination.id }}">{{ destination.address }}</a>{% if destination.stars != 0 %}, {{ destination.stars }} tähteä{% endif %}
     {% endfor %}
-    </p>
-    <p><a href="/new">Lisää uusi kohde</a></p>
-    <p><a href="/user/{{ session.user_id }}">Oma profiili</a></p>
+    <div class="buttons" >
+        <ul>
+        <li><a href="/new">Lisää uusi kohde</a>
+        <li><a href="/user/{{ session.user_id }}">Oma profiili</a>
+        </ul>
+    </div>
+
 
     {% else %}
     <div class="content" >

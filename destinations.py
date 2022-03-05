@@ -1,7 +1,7 @@
 from db import db
 
 def get_destinations():
-    sql = "SELECT id, address FROM destinations"
+    sql = "SELECT d.id, d.address, COALESCE(CAST(AVG(r.stars) AS DECIMAL(10,2)),0) AS stars FROM destinations d LEFT JOIN reviews r ON r.destination_id=d.id GROUP BY d.id ORDER BY COALESCE(AVG(r.stars),0) DESC"
     result = db.session.execute(sql)
     return result.fetchall()
 
