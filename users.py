@@ -29,7 +29,9 @@ def login(username, password):
             return False
 
 def get_users_destinations(user_id):
-    sql = "SELECT d.id, d.address FROM users u, destinations d WHERE u.id=:user_id AND d.user_id=u.id"
+    sql = """SELECT d.id, d.address, COALESCE(CAST(AVG(r.stars) AS DECIMAL(10,2)),0) AS stars 
+            FROM users u JOIN destinations d ON u.id=4 AND d.user_id=u.id 
+            LEFT JOIN reviews r ON r.destination_id=d.id GROUP BY d.id"""
     return db.session.execute(sql, {"user_id":user_id}).fetchall()
 
 def get_user_info(user_id):

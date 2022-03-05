@@ -10,7 +10,7 @@
 <h3>Omat kohteet:</h3>
 
 {% for destination in destinations %}
-<li><a href="/destination/{{ destination.id }}">{{ destination.address }}</a>, tähdet: {{ stars }}
+<li><a href="/destination/{{ destination.id }}">{{ destination.address }}</a>{% if destination.stars != 0 %}, tähdet: {{ destination.stars }}{% endif %}
 {% endfor %}
 {% endif %}
 

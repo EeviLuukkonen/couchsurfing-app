@@ -141,6 +141,7 @@ def user_review():
 def show_user_info(user_id):
     username = users.get_user_info(user_id)
     list = users.get_users_destinations(user_id)
+
     if list == []:
         return render_template("user.html", username = username)
     else:

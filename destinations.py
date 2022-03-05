@@ -30,3 +30,7 @@ def add_review(user_id, destination_id, stars, comment):
 def get_reviews(destination_id):
     sql = "SELECT u.id, u.username, r.stars, r.comment FROM reviews r, users u WHERE r.user_id=u.id AND r.destination_id=:destination_id ORDER BY r.id"
     return db.session.execute(sql, {"destination_id": destination_id}).fetchall()
+
+def get_destination_stars(destination_id):
+    sql = "SELECT AVG(stars) FROM destinations WHERE destination_id=:destination_id"
+    return db.session.execute(sql, {"destination_id": destination_id}).fetchone[0]
