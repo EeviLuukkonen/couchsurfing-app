@@ -59,6 +59,8 @@ def new():
         return render_template("new.html")
     
     if request.method == "POST":
+        users.check_csrf()
+
         address = request.form["address"]
         phone_number = request.form["phone_number"]
         description = request.form["description"]
@@ -87,6 +89,8 @@ def show_destination(destination_id):
 
 @app.route("/review", methods=["post"])
 def review():
+    users.check_csrf()
+
     destination_id = request.form["destination_id"]
     user_id = request.form["user_id"]
 
@@ -114,6 +118,8 @@ def review():
 
 @app.route("/user_review", methods=["post"])
 def user_review():
+    users.check_csrf()
+
     reviewer_id = request.form["reviewer_id"]
     user_id = request.form["user_id"]
     destination_id = request.form["destination_id"]
@@ -130,7 +136,8 @@ def user_review():
     
     user_reviews = users.get_user_reviews(reviewer_id)
     for review in user_reviews:
-        if review[0] == users.user_id():
+        print(review, user_id)
+        if int(review[0]) == int(user_id):
             return render_template("error.html", message="Olet jo arvioinut tämän vierailijan!")
 
     users.add_user_review(reviewer_id, user_id, stars, comment)

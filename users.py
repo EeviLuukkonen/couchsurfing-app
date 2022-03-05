@@ -1,7 +1,8 @@
+import os
 import re
 from werkzeug.security import check_password_hash, generate_password_hash
 from db import db
-from flask import session
+from flask import abort, session, request
 
 def register(username, password):
     hash_value = generate_password_hash(password)
@@ -24,6 +25,7 @@ def login(username, password):
         hash_value = user.password
         if check_password_hash(hash_value, password):
             session["username"] = username
+            session["csrf_token"] = os.urandom(16).hex()
             return True
         else:
             return False
@@ -57,7 +59,7 @@ def add_user_review(reviewer_id, user_id, stars, comment):
     db.session.commit()
 
 def get_user_reviews(reviewer_id):
-    sql = "SELECT u.reviewer_id FROM userreviews u, reviews r WHERE u.user_id=r.user_id AND u.reviewer_id=:reviewer_id GROUP BY u.reviewer_id"
+    sql = "SELECT u.user_id FROM userreviews u, reviews r WHERE u.user_id=r.user_id AND u.reviewer_id=:reviewer_id GROUP BY u.user_id"
     return db.session.execute(sql, {"reviewer_id": reviewer_id}).fetchall()
 
 def get_user_comments(user_id):
@@ -67,3 +69,7 @@ def get_user_comments(user_id):
 def get_user_score(user_id):
     sql = "SELECT COALESCE(CAST(AVG(stars) AS DECIMAL(10,2)),0) FROM userreviews WHERE user_id=:user_id"
     return db.session.execute(sql, {"user_id": user_id}).fetchone()[0]
+
+def check_csrf():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)

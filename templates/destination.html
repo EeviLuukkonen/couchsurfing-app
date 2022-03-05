@@ -38,6 +38,7 @@ Kommentti:<br>
 <p><input type="submit" value="Lähetä">
 <input type="hidden" name="destination_id" value="{{ id }}">
 <input type="hidden" name="user_id" value="{{ user_id }}">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 {% endif %}
 
@@ -62,6 +63,7 @@ Kommentti:<br>
     <input type="hidden" name="reviewer_id" value="{{ user_id }}">
     <input type="hidden" name="user_id" value="{{ visitor[0] }}">
     <input type="hidden" name="destination_id" value="{{ id }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
     <br>
 {% endfor %}
