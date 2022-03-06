@@ -4,18 +4,18 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from db import db
 from flask import abort, session, request
 
-def register(username, password):
+def register(username, password, role):
     hash_value = generate_password_hash(password)
     try:
-        sql = "INSERT INTO users (username, password) VALUES (:username, :password)"
-        db.session.execute(sql, {"username":username, "password":hash_value})
+        sql = "INSERT INTO users (username, password, role) VALUES (:username, :password, :role)"
+        db.session.execute(sql, {"username":username, "password":hash_value, "role":role})
         db.session.commit()
     except:
         return False
     return login(username, password)
 
 def login(username, password):
-    sql = "SELECT id, password FROM users WHERE username=:username"
+    sql = "SELECT id, password, role FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
     if not user:
@@ -26,14 +26,14 @@ def login(username, password):
         if check_password_hash(hash_value, password):
             session["username"] = username
             session["csrf_token"] = os.urandom(16).hex()
+            session["user_role"] = user[2]
             return True
-        else:
-            return False
+    return False
 
 def get_users_destinations(user_id):
-    sql = """SELECT d.id, d.address, COALESCE(CAST(AVG(r.stars) AS DECIMAL(10,2)),0) AS stars 
-            FROM users u JOIN destinations d ON u.id=:user_id AND d.user_id=u.id 
-            LEFT JOIN reviews r ON r.destination_id=d.id GROUP BY d.id"""
+    sql = """SELECT d.id, d.address, COALESCE(CAST(AVG(r.stars) AS DECIMAL(10,2)),0) 
+             AS stars FROM users u JOIN destinations d ON u.id=:user_id AND d.user_id=u.id 
+             LEFT JOIN reviews r ON r.destination_id=d.id GROUP BY d.id"""
     return db.session.execute(sql, {"user_id":user_id}).fetchall()
 
 def get_users_visits(user_id):
@@ -47,9 +47,14 @@ def get_user_info(user_id):
 def user_id():
     return session.get("user_id")
 
+def require_role(role):
+    if role > session.get("user_role", 0):
+        abort(403)
+
 def logout():
     try:
         del session["username"]
+        del session["user_role"]
     except:
         return
 

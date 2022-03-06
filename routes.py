@@ -43,10 +43,13 @@ def register():
         if password1 == "":
             return render_template("error.html", message="Salasanan pituuden tulee olla 3-20 merkkiä")
 
-        if users.register(username, password1):
+        role = request.form["role"]
+        if role not in ("1", "2"):
+            return render_template("error.html", message="Tuntematon käyttäjärooli")
+
+        if users.register(username, password1, role):
             return redirect("/")
-        else:
-            return render_template("error.html", message="Tunnuksen luonti epäonnistui!")
+        return render_template("error.html", message="Tunnuksen luonti epäonnistui!")
 
 @app.route("/logout")
 def logout():
