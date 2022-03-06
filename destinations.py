@@ -1,12 +1,18 @@
 from db import db
 
 def get_destinations():
-    sql = "SELECT d.id, d.address, COALESCE(CAST(AVG(r.stars) AS DECIMAL(10,2)),0) AS stars FROM destinations d LEFT JOIN reviews r ON r.destination_id=d.id GROUP BY d.id ORDER BY COALESCE(AVG(r.stars),0) DESC"
+    sql = """SELECT d.id, d.address, COALESCE(CAST(AVG(r.stars) AS DECIMAL(10,2)),0) 
+             AS stars FROM destinations d LEFT JOIN reviews r ON r.destination_id=d.id 
+             WHERE d.visible=1 GROUP BY d.id ORDER BY COALESCE(AVG(r.stars),0) DESC
+             """
     result = db.session.execute(sql)
     return result.fetchall()
 
 def get_destination_info(destinationid):
-    sql = "SELECT u.username, d.address, i.phone_number, i.description, u.id FROM info i, destinations d, users u WHERE d.id=:destinationid AND d.id=i.destination_id AND u.id=d.user_id"
+    sql = """SELECT u.username, d.address, i.phone_number, i.description, u.id 
+             FROM info i, destinations d, users u WHERE d.id=:destinationid 
+             AND d.id=i.destination_id AND u.id=d.user_id
+             """
     return db.session.execute(sql, {"destinationid":destinationid}).fetchone()
 
 def new_destination(user, address, phone_number, description):
@@ -34,3 +40,8 @@ def get_reviews(destination_id):
 def get_destination_stars(destination_id):
     sql = "SELECT AVG(stars) FROM destinations WHERE destination_id=:destination_id"
     return db.session.execute(sql, {"destination_id": destination_id}).fetchone[0]
+
+def remove_destination(destination_id):
+    sql = "UPDATE destinations SET visible=0 WHERE id=:destination_id"
+    db.session.execute(sql, {"destination_id":destination_id})
+    db.session.commit()

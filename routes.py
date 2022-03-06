@@ -147,7 +147,6 @@ def user_review():
 
     return render_template("success.html")
 
-
 @app.route("/user/<int:user_id>")
 def show_user_info(user_id):
     username = users.get_user_info(user_id)
@@ -160,3 +159,11 @@ def show_user_info(user_id):
         return render_template("user.html", username = username)
     return render_template("user.html", destinations=list, username=username, 
                             visits=visits, comments=comments, userscore=score)
+
+@app.route("/remove_own", methods=["post"])
+def remove_own():
+    users.check_csrf()
+    destination_id=request.form["destination_id"]
+    destinations.remove_destination(destination_id)
+    return redirect("/")
+    
