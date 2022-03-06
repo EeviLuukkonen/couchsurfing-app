@@ -160,10 +160,9 @@ def show_user_info(user_id):
     return render_template("user.html", destinations=list, username=username, 
                             visits=visits, comments=comments, userscore=score)
 
-@app.route("/remove_own", methods=["post"])
-def remove_own():
+@app.route("/remove", methods=["post"])
+def remove_destination():
     users.check_csrf()
     destination_id=request.form["destination_id"]
     destinations.remove_destination(destination_id)
     return redirect("/")
-    

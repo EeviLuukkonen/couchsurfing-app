@@ -7,6 +7,10 @@
     {% block content %}
     {% if session.username %}
     <p>Olet kirjautunut nimellä <b>{{ session.username }}</b></p>
+
+    {% if session.user_role == 2 %}
+    Sinulla on ylläpito-oikeudet, joten voit poistaa minkä tahansa kohteen, arvostelun tai käyttäjä-arvion.
+    {% endif %}
     
     <h2>Saatavilla olevat kohteet:</h2>
     <p>

@@ -41,14 +41,16 @@
 </form>
 {% endif %}
 
-{% if session.username == user %}
+{% if session.username == user or session.user_role == 2 %}
 
-<form action="/remove_own" method="post">
+<form action="/remove" method="post">
     <input type="submit" value="Poista kohde">
     <input type="hidden" name="destination_id" value="{{ id }}">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
+{% endif %}
 
+{% if session.username == user %}
 {% if reviews %}
 <h3>Arvioi vierailijat:</h3>
 
