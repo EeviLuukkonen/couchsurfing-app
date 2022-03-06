@@ -37,6 +37,10 @@ body {
     text-decoration: none;
 }
 
+.navigating li:hover {
+    background-color: rgb(199, 238, 247);
+}
+
 nav {
     display: block;
     float: right;
@@ -79,4 +83,8 @@ nav a {
 .buttons li a {
     color: #000;
     text-decoration: none;
+}
+
+.buttons li:hover {
+    background-color: rgb(199, 238, 247);
 }
