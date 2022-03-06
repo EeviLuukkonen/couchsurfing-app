@@ -88,7 +88,9 @@ def new():
 def show_destination(destination_id):
     info = destinations.get_destination_info(destination_id)
     reviews = destinations.get_reviews(destination_id)
-    return render_template("destination.html", id=destination_id, user=info[0], address=info[1], phone_number=info[2], description=info[3], reviews=reviews, user_id=info[4])
+    return render_template("destination.html", id=destination_id, user=info[0], 
+                            address=info[1], phone_number=info[2], description=info[3], 
+                            reviews=reviews, user_id=info[4])
 
 @app.route("/review", methods=["post"])
 def review():
@@ -125,7 +127,6 @@ def user_review():
 
     reviewer_id = request.form["reviewer_id"]
     user_id = request.form["user_id"]
-    destination_id = request.form["destination_id"]
 
     stars = int(request.form["stars"])
     if stars < 1 or stars > 5:
@@ -139,24 +140,23 @@ def user_review():
     
     user_reviews = users.get_user_reviews(reviewer_id)
     for review in user_reviews:
-        print(review, user_id)
         if int(review[0]) == int(user_id):
             return render_template("error.html", message="Olet jo arvioinut tämän vierailijan!")
 
     users.add_user_review(reviewer_id, user_id, stars, comment)
 
-    return redirect("/destination/"+str(destination_id))
+    return render_template("success.html")
+
 
 @app.route("/user/<int:user_id>")
 def show_user_info(user_id):
     username = users.get_user_info(user_id)
     list = users.get_users_destinations(user_id)
     visits = users.get_users_visits(user_id)
-    
     comments = users.get_user_comments(user_id)
     score = users.get_user_score(user_id)
 
     if list == []:
         return render_template("user.html", username = username)
-    else:
-        return render_template("user.html", destinations=list, username=username, visits=visits, comments=comments, userscore=score)
+    return render_template("user.html", destinations=list, username=username, 
+                            visits=visits, comments=comments, userscore=score)
