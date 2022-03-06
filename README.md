@@ -5,16 +5,13 @@ Sohvasurffaus on toimintaa, jossa tarjotaan omaa kotia majoituspaikaksi tuntemat
 Sovelluksen ominaisuuksia:
 
 * Käyttäjä voi luoda tunnuksen ja kirjautua sisään tai ulos
-* Käyttäjä näkee saatavilla olevat sohvasurffauskohteet kartalla
+* Käyttäjä näkee saatavilla olevat sohvasurffauskohteet korkeimman arvosanan mukaan lajiteltuna
 * Painamalla kohteesta käyttäjä saa siitä lisätietoa: osoite, omistajan nimi, omistajan puhelinnumero, kuvaus, arvio (1-5 tähteä), arvosteluja
-* Käyttäjä voi arvostella muiden sohvasurffauskohteita
-* Käyttäjä voi lisätä oman kotinsa sohvasurffauskohteeksi
-* Ylläpitäjä voi tarvittaessa poistaa sohvasurffauskohteita sekä käyttäjien arvosteluja
-
-VÄLIPALAUTUS 3:
-
-Sovelluksessa pystyy kirjautumaan, lisäämään kohteen ja arvostelemaan sen. Vielä lisäämättä ylläpitäjärooli, kohteiden poistaminen ja lajittelu yms
-paranteluja toiminnallisuuteen.
+* Käyttäjä voi lisätä ja poistaa omia sohvasurffauskohteita
+* Käyttäjä voi arvostella muiden käyttäjien sohvasurffauskohteita
+* Käyttäjä voi arvostella omassa kohteessaan vierailleita käyttäjiä
+* Käyttäjä voi tarkastella omaa tai muiden käyttäjäprofiilia, josta näkee omat kohteet, arvosteltujen kohteiden määrän, vierailija-arvosanan sekä muiden käyttäjien kommentteja sinusta vierailijana
+* Ylläpitäjä voi tarvittaessa poistaa sohvasurffauskohteita
 
 Sovellus herokussa:
 
