@@ -9,7 +9,7 @@
     <p>Olet kirjautunut nimellä <b>{{ session.username }}</b></p>
 
     {% if session.user_role == 2 %}
-    Sinulla on ylläpito-oikeudet, joten voit poistaa minkä tahansa kohteen, arvostelun tai käyttäjä-arvion.
+    Sinulla on ylläpito-oikeudet, joten voit poistaa minkä tahansa käyttäjän kohteen.
     {% endif %}
     
     <h2>Saatavilla olevat kohteet:</h2>
@@ -23,7 +23,6 @@
         <li><a href="/user/{{ session.user_id }}">Oma profiili</a>
         </ul>
     </div>
-
 
     {% else %}
     <div class="content" >

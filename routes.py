@@ -1,6 +1,4 @@
-from os import error
-import re
-from flask import render_template, request, redirect, sessions
+from flask import render_template, request, redirect
 from app import app
 from db import db
 import users
@@ -21,18 +19,18 @@ def login():
         password = request.form["password"]
         if users.login(username, password):
             return redirect("/")
-        else:
-            return render_template("login.html", error="Käyttäjätunnus ja salasana eivät täsmää!")
+        return render_template("login.html", error="Käyttäjätunnus ja salasana eivät täsmää!")
 
 @app.route("/register", methods=["get", "post"])
 def register():
     if request.method == "GET":
         return render_template("register.html")
-    
+
     if request.method == "POST":
         username = request.form["username"]
         if 3 > len(username) > 20:
-            return render_template("error.html", message="Käyttäjänimen pituuden tulee olla 3-20 merkkiä")
+            return render_template("error.html",
+                                   message="Käyttäjänimen pituuden tulee olla 3-20 merkkiä")
 
         password1 = request.form["password1"]
         password2 = request.form["password2"]
@@ -41,7 +39,8 @@ def register():
             return render_template("error.html", message="Salasanat eivät täsmää")
 
         if password1 == "":
-            return render_template("error.html", message="Salasanan pituuden tulee olla 3-20 merkkiä")
+            return render_template("error.html",
+                                   message="Salasanan pituuden tulee olla 3-20 merkkiä")
 
         role = request.form["role"]
         if role not in ("1", "2"):
@@ -60,7 +59,7 @@ def logout():
 def new():
     if request.method == "GET":
         return render_template("new.html")
-    
+
     if request.method == "POST":
         users.check_csrf()
 
@@ -71,26 +70,28 @@ def new():
         if len(description) > 500:
             return render_template("/error.html", message="Kommentti on liian pitkä")
         if description == "" or address == "" or phone_number == "":
-            return render_template("/error.html", message="Kohteen lisäys epäonnistui. Täytä kaikki kohdat!")
-        
+            return render_template("/error.html",
+                                   message="Kohteen lisäys epäonnistui. Täytä kaikki kohdat!")
+
         if len(phone_number) != 10:
-            return render_template("/error.html", message="Tarkista puhelinnumeron pituus (10 merkkiä)!")
+            return render_template("/error.html",
+                                   message="Tarkista puhelinnumeron pituus (10 merkkiä)!")
 
         user = users.user_id()
 
         if user:
             if destinations.new_destination(user, address, phone_number, description):
-                return render_template("/new.html", success=True)   
+                return render_template("/new.html", success=True)
         else:
-            return render_template("/new.html", error=True)         
+            return render_template("/new.html", error=True)    
 
 @app.route("/destination/<int:destination_id>")
 def show_destination(destination_id):
     info = destinations.get_destination_info(destination_id)
     reviews = destinations.get_reviews(destination_id)
     return render_template("destination.html", id=destination_id, user=info[0], 
-                            address=info[1], phone_number=info[2], description=info[3], 
-                            reviews=reviews, user_id=info[4])
+                           address=info[1], phone_number=info[2], description=info[3], 
+                           reviews=reviews, user_id=info[4])
 
 @app.route("/review", methods=["post"])
 def review():
@@ -108,10 +109,10 @@ def review():
         return render_template("error.html", message="Kommentin tulee olla alle 500 merkkiä pitkä.")
     if comment == "":
         return render_template("error.html", message="Kommentti ei saa olla tyhjä!")
-    
+
     if int(users.user_id()) == int(user_id):
         return render_template("error.html", message="Et voi arvioida omaa kohdettasi!")
-    
+
     reviews = destinations.get_reviews(destination_id)
     for review in reviews:
         if review[0] == users.user_id():
@@ -131,13 +132,13 @@ def user_review():
     stars = int(request.form["stars"])
     if stars < 1 or stars > 5:
         return render_template("destination.html", error=True, message="Virheellinen tähtimäärä")
-    
+
     comment = request.form["comment"]
     if len(comment) > 200:
         return render_template("error.html", message="Kommentin tulee olla alle 200 merkkiä pitkä.")
     if comment == "":
         return render_template("error.html", message="Kommentti ei saa olla tyhjä!")
-    
+
     user_reviews = users.get_user_reviews(reviewer_id)
     for review in user_reviews:
         if int(review[0]) == int(user_id):
@@ -156,13 +157,14 @@ def show_user_info(user_id):
     score = users.get_user_score(user_id)
 
     if list == []:
-        return render_template("user.html", username = username)
+        return render_template("user.html", username=username, visits=visits,
+                               comments=comments, userscore=score)
     return render_template("user.html", destinations=list, username=username, 
-                            visits=visits, comments=comments, userscore=score)
+                           visits=visits, comments=comments, userscore=score)
 
 @app.route("/remove", methods=["post"])
 def remove_destination():
     users.check_csrf()
-    destination_id=request.form["destination_id"]
+    destination_id = request.form["destination_id"]
     destinations.remove_destination(destination_id)
     return redirect("/")
